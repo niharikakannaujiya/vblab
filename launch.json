@@ -1,0 +1,21 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Double Pendulum in Chrome",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:5173",
+      "webRoot": "${workspaceFolder}/src",
+      "preLaunchTask": "Start Dev Server (Vite)"
+    },
+    {
+      "name": "Debug Physics Unit Tests (Node)",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/tests/doublePendulum.test.js",
+      "runtimeArgs": ["--test"],
+      "console": "integratedTerminal"
+    }
+  ]
+}
