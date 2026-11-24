@@ -1,107 +1,134 @@
-# Phase Space Trajectory Analysis of a Chaotic Double Pendulum
+<p align="center">
+	<a href="https://rollupjs.org/"><img src="https://rollupjs.org/rollup-logo.svg" width="150" /></a>
+</p>
 
-An interactive university-level physics research dashboard demonstrating deterministic chaos, Hamiltonian energy conservation, and 4D phase-space trajectory geometry for a planar double pendulum.
+<p align="center">
+  <a href="https://www.npmjs.com/package/rollup">
+    <img src="https://img.shields.io/npm/v/rollup.svg" alt="npm version" >
+  </a>
+  <a href="https://nodejs.org/en/about/previous-releases">
+    <img src="https://img.shields.io/node/v/rollup.svg" alt="node compatibility">
+  </a>
+  <a href="https://packagephobia.com/result?p=rollup">
+    <img src="https://packagephobia.com/badge?p=rollup" alt="install size" >
+  </a>
+  <a href="https://codecov.io/gh/rollup/rollup">
+    <img src="https://codecov.io/gh/rollup/rollup/graph/badge.svg" alt="code coverage" >
+  </a>
+  <a href="#backers" alt="sponsors on Open Collective">
+    <img src="https://opencollective.com/rollup/backers/badge.svg" alt="backers" >
+  </a> 
+  <a href="#sponsors" alt="Sponsors on Open Collective">
+    <img src="https://opencollective.com/rollup/sponsors/badge.svg" alt="sponsors" >
+  </a> 
+  <a href="https://github.com/rollup/rollup/blob/master/LICENSE.md">
+    <img src="https://img.shields.io/npm/l/rollup.svg" alt="license">
+  </a>
+  <a href='https://is.gd/rollup_chat?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge'>
+    <img src='https://img.shields.io/discord/466787075518365708?color=778cd1&label=chat' alt='Join the chat at https://is.gd/rollup_chat'>
+  </a>
+</p>
 
-## Features
+<h1 align="center">Rollup</h1>
 
-- **Exact Nonlinear Lagrangian Physics Engine**: Solves the coupled Euler-Lagrange equations of motion in the 4D state vector $(\theta_1, \theta_2, \omega_1, \omega_2)$ with zero fake or synthetic data.
-- **4th-Order Runge-Kutta (RK4) Integrator**: Fixed micro-step integration ($\Delta t = 2\text{ ms}$) preserving total mechanical energy cleanly across regular, chaotic, and extreme regimes.
-- **Interactive Physical Apparatus**: High-DPI HTML5 Canvas rendering rigid rods, mass-scaled bobs, downward gravity indicator, adjustable trajectory trails, and Start / Pause / Reset / Step controls.
-- **Phase Space Analysis**: Real-time phase portraits for all four canonical 2D projections:
-  - $\theta_1$ vs $\omega_1$
-  - $\theta_2$ vs $\omega_2$
-  - $\theta_1$ vs $\theta_2$
-  - $\omega_1$ vs $\omega_2$
-  - Includes a **4-Panel Quad View**, optional angle wrapping $\theta \in [-\pi, \pi]$, and twin-trajectory overlay.
-- **Chaos Theory & Lyapunov Analysis**:
-  - One-click **Compare Initial Conditions** launching two synchronized pendulums separated by $\delta_0 \in \{10^{-2}, 10^{-3}, 10^{-4}, 10^{-5}\}\text{ rad}$.
-  - Initial-condition comparison graph ($\theta_2^{(A)}$ vs $\theta_2^{(B)}$), linear/logarithmic angular separation $\Delta\theta(t)$, and Benettin finite-time maximum Lyapunov exponent ($\lambda_{\max}$) convergence plot.
-- **Energy Conservation Telemetry**: Live tracking of kinetic energy $T(t)$, potential energy $V(t)$, total mechanical energy $E(t) = T + V$, and numerical drift $\Delta E(t) = E(t) - E_0$.
-- **Research Exports**: Export simulation telemetry as **CSV** and download any scientific plot or apparatus snapshot as **PNG**.
-- **Theory & Equations**: Full LaTeX-typeset mathematical derivation via KaTeX.
+## Overview
 
----
+Rollup is a module bundler for JavaScript which compiles small pieces of code into something larger and more complex, such as a library or application. It uses the standardized ES module format for code, instead of previous idiosyncratic solutions such as CommonJS and AMD. ES modules let you freely and seamlessly combine the most useful individual functions from your favorite libraries. Rollup can optimize ES modules for faster native loading in modern browsers, or output a legacy module format allowing ES module workflows today.
 
-## Project Structure
+## Quick Start Guide
 
-```text
-├── index.html
-├── package.json
-├── vite.config.js
-├── README.md
-├── tests/
-│   └── doublePendulum.test.js      # Physics conservation, normal-mode & chaos unit tests
-└── src/
-    ├── main.jsx
-    ├── index.css                   # Dark scientific theme & responsive grid layout
-    ├── App.jsx                     # Simulation loop, state management, & dashboard shell
-    ├── physics/
-    │   └── doublePendulum.js       # Euler-Lagrange ODEs, RK4 stepper, energy, & Lyapunov tracker
-    ├── utils/
-    │   └── exportData.js           # CSV & PNG export utilities
-    └── components/
-        ├── ControlPanel.jsx        # Sliders, presets, transport, & live telemetry
-        ├── PendulumCanvas.jsx      # High-DPI Canvas pendulum & trail renderer
-        ├── ScientificChart.jsx     # Real-time Chart.js wrapper with PNG export
-        ├── MathBlock.jsx           # KaTeX formula renderer
-        ├── OverviewSection.jsx     # Dashboard overview & regime launcher
-        ├── LiveSimulationSection.jsx
-        ├── PhaseSpaceSection.jsx   # 4 phase-space projections & quad view
-        ├── ChaosAnalysisSection.jsx
-        ├── EnergyAnalysisSection.jsx
-        ├── TheorySection.jsx       # Complete mathematical theory & LaTeX equations
-        └── AboutSection.jsx
-```
+Install with `npm install --global rollup`. Rollup can be used either through a [command line interface](https://rollupjs.org/command-line-interface/) with an optional configuration file or else through its [JavaScript API](https://rollupjs.org/javascript-api/). Run `rollup --help` to see the available options and parameters. The starter project templates, [rollup-starter-lib](https://github.com/rollup/rollup-starter-lib) and [rollup-starter-app](https://github.com/rollup/rollup-starter-app), demonstrate common configuration options, and more detailed instructions are available throughout the [user guide](https://rollupjs.org/introduction/).
 
----
+### Commands
 
-## Setup & Running Locally
+These commands assume the entry point to your application is named main.js, and that you'd like all imports compiled into a single file named bundle.js.
 
-### Prerequisites
-- **Node.js** v18+ (tested on Node v26.5.0)
-- **npm**
-
-### Install & Start Development Server
+For browsers:
 
 ```bash
-npm install
-npm run dev
+# compile to a <script> containing a self-executing function
+rollup main.js --format iife --name "myBundle" --file bundle.js
 ```
 
-*(On Windows PowerShell if script execution policy blocks `npm`, use `npm.cmd install` and `npm.cmd run dev`.)*
-
-### Run Physics Unit Tests
+For Node.js:
 
 ```bash
-npm test
+# compile to a CommonJS module
+rollup main.js --format cjs --file bundle.js
 ```
 
-### Build for Production
+For both browsers and Node.js:
 
 ```bash
-npm run build
-npm run preview
+# UMD format requires a bundle name
+rollup main.js --format umd --name "myBundle" --file bundle.js
 ```
 
----
+## Why
 
-## Mathematical Model
+Developing software is usually easier if you break your project into smaller separate pieces, since that often removes unexpected interactions and dramatically reduces the complexity of the problems you'll need to solve, and simply writing smaller projects in the first place [isn't necessarily the answer](https://medium.com/@Rich_Harris/small-modules-it-s-not-quite-that-simple-3ca532d65de4). Unfortunately, JavaScript has not historically included this capability as a core feature in the language.
 
-Let $\theta_1, \theta_2$ be the angles of the inner and outer rods measured from the downward vertical, with point masses $m_1, m_2$, rigid massless rod lengths $L_1, L_2$, and gravitational acceleration $g$:
+This finally changed with ES modules support in JavaScript, which provides a syntax for importing and exporting functions and data so they can be shared between separate scripts. Most browsers and Node.js support ES modules. However, Node.js releases before 12.17 support ES modules only behind the `--experimental-modules` flag, and older browsers like Internet Explorer do not support ES modules at all. Rollup allows you to write your code using ES modules, and run your application even in environments that do not support ES modules natively. For environments that support them, Rollup can output optimized ES modules; for environments that don't, Rollup can compile your code to other formats such as CommonJS modules, AMD modules, and IIFE-style scripts. This means that you get to _write future-proof code_, and you also get the tremendous benefits of...
 
-$$T = \frac{1}{2}(m_1 + m_2) L_1^2 \omega_1^2 + \frac{1}{2} m_2 L_2^2 \omega_2^2 + m_2 L_1 L_2 \omega_1 \omega_2 \cos(\theta_1 - \theta_2)$$
+## Tree Shaking
 
-$$V = (m_1 + m_2) g L_1 (1 - \cos\theta_1) + m_2 g L_2 (1 - \cos\theta_2)$$
+In addition to enabling the use of ES modules, Rollup also statically analyzes and optimizes the code you are importing, and will exclude anything that isn't actually used. This allows you to build on top of existing tools and modules without adding extra dependencies or bloating the size of your project.
 
-Applying the Euler-Lagrange equations $\frac{d}{dt}\left(\frac{\partial \mathcal{L}}{\partial \omega_i}\right) - \frac{\partial \mathcal{L}}{\partial \theta_i} = 0$ gives the exact coupled nonlinear accelerations:
+For example, with CommonJS, the _entire tool or library must be imported_.
 
-$$\dot{\omega}_1 = \frac{-g(2m_1 + m_2)\sin\theta_1 - m_2 g \sin(\theta_1 - 2\theta_2) - 2\sin(\theta_1 - \theta_2)\, m_2 \left(\omega_2^2 L_2 + \omega_1^2 L_1 \cos(\theta_1 - \theta_2)\right)}{L_1 \left(2m_1 + m_2 - m_2 \cos(2\theta_1 - 2\theta_2)\right)}$$
+```js
+// import the entire utils object with CommonJS
+var utils = require('node:utils');
+var query = 'Rollup';
+// use the ajax method of the utils object
+utils.ajax('https://api.example.com?search=' + query).then(handleResponse);
+```
 
-$$\dot{\omega}_2 = \frac{2\sin(\theta_1 - \theta_2)\left(\omega_1^2 L_1 (m_1 + m_2) + g(m_1 + m_2)\cos\theta_1 + \omega_2^2 L_2 m_2 \cos(\theta_1 - \theta_2)\right)}{L_2 \left(2m_1 + m_2 - m_2 \cos(2\theta_1 - 2\theta_2)\right)}$$
+But with ES modules, instead of importing the whole `utils` object, we can just import the one `ajax` function we need:
 
----
+```js
+// import the ajax function with an ES import statement
+import { ajax } from 'node:utils';
 
-## Numerical Methods
+var query = 'Rollup';
+// call the ajax function
+ajax('https://api.example.com?search=' + query).then(handleResponse);
+```
 
-- **RK4 Integration**: Each animation frame advances simulation time in fixed $\Delta t = 0.002\text{ s}$ steps using 4th-order Runge-Kutta (local truncation error $\mathcal{O}(\Delta t^5)$, global error $\mathcal{O}(\Delta t^4)$).
-- **Approximate Lyapunov Exponent**: Computed via Benettin's tangent-space renormalization ($\varepsilon = 10^{-6}$, renormalization interval $0.2\text{ s}$) using a characteristic frequency scale $\omega_c = \sqrt{g / \min(L_1, L_2)}$ for dimensional consistency. Numerical Lyapunov estimates are finite-time approximations that depend on simulation duration, perturbation magnitude, and phase-space metric.
+Because Rollup includes the bare minimum, it results in lighter, faster, and less complicated libraries and applications. Since this approach is based on explicit `import` and `export` statements, it is vastly more effective than simply running an automated minifier to detect unused variables in the compiled output code.
+
+## Compatibility
+
+### Importing CommonJS
+
+Rollup can import existing CommonJS modules [through a plugin](https://github.com/rollup/plugins/tree/master/packages/commonjs).
+
+### Publishing ES Modules
+
+To make sure your ES modules are immediately usable by tools that work with CommonJS such as Node.js and webpack, you can use Rollup to compile to UMD or CommonJS format, and then point to that compiled version with the `main` property in your `package.json` file. If your `package.json` file also has a `module` field, ES-module-aware tools like Rollup and [webpack](https://webpack.js.org/) will [import the ES module version](https://github.com/rollup/rollup/wiki/pkg.module) directly.
+
+## Contributors
+
+This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)]. <a href="https://github.com/rollup/rollup/graphs/contributors"><img src="https://opencollective.com/rollup/contributors.svg?width=890" /></a>. If you want to contribute yourself, head over to the [contribution guidelines](CONTRIBUTING.md).
+
+## Backers
+
+Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/rollup#backer)]
+
+<a href="https://opencollective.com/rollup#backers" target="_blank"><img src="https://opencollective.com/rollup/backers.svg?width=890"></a>
+
+## Sponsors
+
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/rollup#sponsor)]
+
+<a href="https://opencollective.com/rollup/sponsor/0/website" target="_blank"><img src="https://opencollective.com/rollup/sponsor/0/avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/1/website" target="_blank"><img src="https://opencollective.com/rollup/sponsor/1/avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/2/website" target="_blank"><img src="https://opencollective.com/rollup/sponsor/2/avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/3/website" target="_blank"><img src="https://opencollective.com/rollup/sponsor/3/avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/4/website" target="_blank"><img src="https://opencollective.com/rollup/sponsor/4/avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/5/website" target="_blank"><img src="https://opencollective.com/rollup/sponsor/5/avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/6/website" target="_blank"><img src="https://opencollective.com/rollup/sponsor/6/avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/7/website" target="_blank"><img src="https://opencollective.com/rollup/sponsor/7/avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/8/website" target="_blank"><img src="https://opencollective.com/rollup/sponsor/8/avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/9/website" target="_blank"><img src="https://opencollective.com/rollup/sponsor/9/avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/10/website" target="_blank"><img src="https://opencollective.com/rollup/sponsor/10/avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/11/website" target="_blank"><img src="https://opencollective.com/rollup/sponsor/11/avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/12/website" target="_blank"><img src="https://opencollective.com/rollup/sponsor/12/avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/13/website" target="_blank"><img src="https://opencollective.com/rollup/sponsor/13/avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/14/website" target="_blank"><img src="https://opencollective.com/rollup/sponsor/14/avatar.svg"></a>
+
+## Special Sponsor
+
+<a href="https://www.tngtech.com/en/index.html" target="_blank"><img src="https://avatars.githubusercontent.com/u/432256?s=200&v=4" alt="TNG Logo"/></a>
+
+TNG has been supporting the work of [Lukas Taegert-Atkinson](https://github.com/lukastaegert) on Rollup since 2017.
+
+## License
+
+[MIT](https://github.com/rollup/rollup/blob/master/LICENSE.md)
